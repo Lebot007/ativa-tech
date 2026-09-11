@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<!-- ============================================================
+  ATIVA TECH — Site Front-end (Ativação de Windows & Formatação)
+  IMAGENS: salve na pasta "img/" com os nomes:
+    img/hero-pc.jpg           (PC com holograma)
+    img/ativacao-windows.jpg  (notebook com chave)
+    img/manutencao-pc.jpg     (técnico limpando)
+    img/bancada-tech.jpg      (bancada vista superior)
+    img/ssd-formatacao.jpg    (SSD/RAM)
+  WHATSAPP E PREÇOS: configure no objeto CONFIG (início do <script>)
+============================================================= -->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AtivaTech — Ativação de Windows e Formatação de Computador</title>
+<meta name="description" content="Ativação de Windows 10 e 11, formatação completa, limpeza e otimização de PCs e notebooks. Atendimento presencial e remoto com garantia. Chame no WhatsApp!">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ============ BASE ============ */
+:root{
+  --bg:#04070f; --bg2:#0a1322; --card:rgba(255,255,255,.045);
+  --line:rgba(148,163,184,.16); --txt:#e6edf6; --muted:#93a4b8;
+  --blue:#38bdf8; --cyan:#22d3ee; --deep:#0284c7; --wa:#25d366;
+  --grad:linear-gradient(135deg,#38bdf8 0%,#22d3ee 50%,#818cf8 100%);
+  --radius:20px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);overflow-x:hidden;line-height:1.6}
+::selection{background:rgba(56,189,248,.35)}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:#060b16}
+::-webkit-scrollbar-thumb{background:linear-gradient(#0ea5e9,#6366f1);border-radius:8px}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.mono{font-family:'JetBrains Mono',monospace}
+section{position:relative;padding:110px 0;z-index:1}
+.container{width:min(1180px,92%);margin:0 auto}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ============ FUNDO WEBGL ============ */
+#glbg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+body::before{content:"";position:fixed;inset:0;z-index:-1;
+  background:radial-gradient(1200px 700px at 80% -10%,rgba(2,132,199,.25),transparent 60%),
+             radial-gradient(900px 600px at 10% 110%,rgba(99,102,241,.18),transparent 60%),var(--bg);}
+
+/* ============ PRELOADER ============ */
+#preloader{position:fixed;inset:0;z-index:9999;background:#03060d;display:flex;flex-direction:column;gap:26px;align-items:center;justify-content:center;transition:opacity .6s,visibility .6s}
+#preloader.done{opacity:0;visibility:hidden}
+.pre-logo{display:grid;grid-template-columns:repeat(2,26px);gap:6px;animation:preSpin 2.4s ease-in-out infinite}
+.pre-logo i{background:var(--grad);border-radius:4px;animation:prePulse 1.2s ease-in-out infinite}
+.pre-logo i:nth-child(2){animation-delay:.15s}.pre-logo i:nth-child(3){animation-delay:.3s}.pre-logo i:nth-child(4){animation-delay:.45s}
+@keyframes prePulse{0%,100%{opacity:.35;transform:scale(.85)}50%{opacity:1;transform:scale(1)}}
+@keyframes preSpin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+.pre-bar{width:220px;height:3px;background:rgba(148,163,184,.15);border-radius:99px;overflow:hidden}
+.pre-bar i{display:block;height:100%;width:40%;background:var(--grad);border-radius:99px;animation:preLoad 1.1s ease-in-out infinite}
+@keyframes preLoad{0%{transform:translateX(-110%)}100%{transform:translateX(300%)}}
+.pre-txt{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--muted);letter-spacing:.25em}
+
+/* ============ CURSOR ============ */
+.cur-dot,.cur-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9998;border-radius:50%;transform:translate(-50%,-50%)}
+.cur-dot{width:7px;height:7px;background:var(--cyan)}
+.cur-ring{width:36px;height:36px;border:1.5px solid rgba(56,189,248,.6);transition:width .25s,height .25s,border-color .25s}
+.cur-ring.hover{width:60px;height:60px;border-color:var(--cyan);background:rgba(34,211,238,.08)}
+@media (hover:none),(pointer:coarse){.cur-dot,.cur-ring{display:none}}
+
+/* ============ PROGRESSO / TOPO ============ */
+#progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--grad);z-index:999;box-shadow:0 0 12px rgba(56,189,248,.8)}
+#toTop{position:fixed;right:26px;bottom:110px;z-index:900;width:46px;height:46px;border-radius:14px;background:rgba(10,19,34,.85);border:1px solid var(--line);backdrop-filter:blur(10px);display:grid;place-items:center;opacity:0;visibility:hidden;transform:translateY(14px);transition:.35s}
+#toTop.show{opacity:1;visibility:visible;transform:none}
+#toTop:hover{border-color:var(--blue);box-shadow:0 0 20px rgba(56,189,248,.35)}
+
+/* ============ NAVBAR ============ */
+header{position:fixed;top:0;left:0;right:0;z-index:1000;transition:.4s;padding:20px 0}
+header.scrolled{padding:12px 0;background:rgba(4,7,15,.75);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{display:flex;align-items:center;gap:11px;font-weight:800;font-size:1.2rem;letter-spacing:-.02em}
+.logo-mark{width:34px;height:34px;display:grid;grid-template-columns:1fr 1fr;gap:3px;padding:5px;background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.4);border-radius:9px;transition:.4s}
+.logo:hover .logo-mark{transform:rotate(90deg);box-shadow:0 0 18px rgba(56,189,248,.4)}
+.logo-mark i{background:var(--grad);border-radius:2px}
+.nav-links{display:flex;gap:6px;align-items:center}
+.nav-links a{padding:9px 15px;border-radius:10px;font-size:.92rem;color:var(--muted);transition:.3s;position:relative}
+.nav-links a:hover,.nav-links a.active{color:#fff;background:rgba(56,189,248,.1)}
+.nav-links a.active::after{content:"";position:absolute;left:50%;bottom:2px;width:16px;height:2px;background:var(--grad);transform:translateX(-50%);border-radius:2px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:14px;font-weight:700;font-size:.95rem;transition:.3s;position:relative;overflow:hidden}
+.btn-wa{background:linear-gradient(135deg,#1fbf5f,#25d366);color:#04140a;box-shadow:0 8px 26px rgba(37,211,102,.35)}
+.btn-wa:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(37,211,102,.5)}
+.btn-ghost{border:1px solid rgba(56,189,248,.45);color:#cfeafd;background:rgba(56,189,248,.07)}
+.btn-ghost:hover{background:rgba(56,189,248,.16);transform:translateY(-3px);box-shadow:0 10px 26px rgba(56,189,248,.25)}
+.btn svg{width:19px;height:19px;flex:none}
+#menuBtn{display:none;flex-direction:column;gap:5px;padding:8px}
+#menuBtn span{width:24px;height:2px;background:#fff;border-radius:2px;transition:.35s}
+header.open #menuBtn span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+header.open #menuBtn span:nth-child(2){opacity:0}
+header.open #menuBtn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ============ HERO ============ */
+#inicio{min-height:100svh;display:flex;align-items:center;padding:150px 0 90px;overflow:hidden}
+#particles{position:absolute;inset:0;z-index:0;pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center;position:relative;z-index:2}
+.hero-badge{display:inline-flex;align-items:center;gap:9px;padding:8px 16px;border-radius:99px;border:1px solid rgba(56,189,248,.35);background:rgba(56,189,248,.08);font-size:.8rem;color:#a5dcf8;font-family:'JetBrains Mono',monospace;margin-bottom:22px}
+.pulse-dot{width:8px;height:8px;border-radius:50%;background:#25d366;box-shadow:0 0 0 0 rgba(37,211,102,.6);animation:pulse 1.8s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 11px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
+h1{font-size:clamp(2.4rem,5.2vw,4rem);line-height:1.08;font-weight:800;letter-spacing:-.03em;margin-bottom:18px}
+.typed-wrap{font-family:'JetBrains Mono',monospace;font-size:clamp(.95rem,1.6vw,1.15rem);color:var(--cyan);min-height:1.7em;margin-bottom:16px}
+.typed-wrap .caret{display:inline-block;width:9px;background:var(--cyan);animation:blink 1s steps(1) infinite;margin-left:2px;height:1.1em;vertical-align:text-bottom}
+@keyframes blink{50%{opacity:0}}
+.hero-sub{color:var(--muted);font-size:1.05rem;max-width:520px;margin-bottom:34px}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:48px}
+.hero-stats{display:flex;gap:38px;flex-wrap:wrap}
+.stat b{font-size:1.9rem;font-weight:800;display:block;line-height:1.1}
+.stat span{color:var(--muted);font-size:.83rem}
+.hero-visual{position:relative;perspective:1200px}
+.float-anim{animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+.hero-frame{position:relative;border-radius:26px;overflow:hidden;border:1px solid rgba(56,189,248,.35);box-shadow:0 30px 80px rgba(2,8,20,.8),0 0 60px rgba(56,189,248,.18);transform-style:preserve-3d;will-change:transform}
+.hero-frame img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3}
+.hero-frame::after{content:"";position:absolute;inset:0;background:linear-gradient(200deg,transparent 55%,rgba(4,7,15,.75));pointer-events:none}
+.hero-frame .shine{position:absolute;top:0;left:-80%;width:55%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.18),transparent);transform:skewX(-20deg);animation:shine 4.5s ease-in-out infinite;pointer-events:none}
+@keyframes shine{0%{left:-80%}55%,100%{left:130%}}
+.orbit{position:absolute;inset:-9%;border:1.5px dashed rgba(56,189,248,.3);border-radius:50%;animation:orbitSpin 26s linear infinite;pointer-events:none}
+.orbit i{position:absolute;top:-6px;left:50%;width:12px;height:12px;border-radius:50%;background:var(--cyan);box-shadow:0 0 16px var(--cyan)}
+@keyframes orbitSpin{to{transform:rotate(360deg)}}
+.badge-float{position:absolute;display:flex;align-items:center;gap:9px;padding:11px 17px;border-radius:14px;background:rgba(8,15,28,.82);backdrop-filter:blur(12px);border:1px solid rgba(56,189,248,.4);font-size:.82rem;font-weight:600;box-shadow:0 12px 30px rgba(2,8,20,.6);animation:float 5s ease-in-out infinite}
+.badge-float svg{width:17px;height:17px;color:var(--cyan)}
+.bf-1{top:9%;left:-9%;animation-delay:.6s}
+.bf-2{bottom:13%;right:-7%;animation-delay:1.4s}
+.bf-2 svg{color:#25d366}
+.scene3d{position:absolute;top:-64px;right:-30px;width:120px;height:120px;perspective:700px;z-index:3}
+.cube{width:100%;height:100%;position:relative;transform-style:preserve-3d;animation:cubeSpin 16s linear infinite}
+@keyframes cubeSpin{from{transform:rotateX(-20deg) rotateY(0)}to{transform:rotateX(-20deg) rotateY(360deg)}}
+.face{position:absolute;inset:0;display:grid;place-items:center;background:rgba(56,189,248,.09);border:1px solid rgba(56,189,248,.55);box-shadow:inset 0 0 26px rgba(56,189,248,.25);backdrop-filter:blur(2px)}
+.face svg{width:44px;height:44px;color:#7dd3fc;filter:drop-shadow(0 0 8px rgba(56,189,248,.9))}
+.f1{transform:rotateY(0) translateZ(60px)}.f2{transform:rotateY(90deg) translateZ(60px)}
+.f3{transform:rotateY(180deg) translateZ(60px)}.f4{transform:rotateY(270deg) translateZ(60px)}
+.f5{transform:rotateX(90deg) translateZ(60px)}.f6{transform:rotateX(-90deg) translateZ(60px)}
+
+/* ============ MARQUEE ============ */
+.marquee{border-block:1px solid var(--line);background:rgba(8,15,28,.55);backdrop-filter:blur(8px);overflow:hidden;padding:18px 0;z-index:1}
+.mq-track{display:flex;gap:56px;width:max-content;animation:mq 26s linear infinite}
+.marquee:hover .mq-track{animation-play-state:paused}
+@keyframes mq{to{transform:translateX(-50%)}}
+.mq-item{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:.92rem;font-weight:600;white-space:nowrap}
+.mq-item svg{width:17px;height:17px;color:var(--cyan)}
+
+/* ============ TÍTULOS DE SEÇÃO ============ */
+.sec-head{text-align:center;max-width:660px;margin:0 auto 64px}
+.sec-tag{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.3em;color:var(--cyan);text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;margin-bottom:14px}
+.sec-tag::before,.sec-tag::after{content:"";width:26px;height:1px;background:linear-gradient(90deg,transparent,var(--cyan))}
+.sec-tag::after{background:linear-gradient(90deg,var(--cyan),transparent)}
+.sec-head h2{font-size:clamp(1.9rem,3.6vw,2.7rem);font-weight:800;letter-spacing:-.02em;line-height:1.15;margin-bottom:14px}
+.sec-head p{color:var(--muted)}
+
+/* ============ SERVIÇOS ============ */
+.srv-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
+.srv-card{position:relative;border-radius:var(--radius);overflow:hidden;background:var(--card);border:1px solid var(--line);transition:border-color .4s,box-shadow .4s;transform-style:preserve-3d;will-change:transform}
+.srv-card:hover{border-color:rgba(56,189,248,.55);box-shadow:0 24px 60px rgba(2,8,20,.7),0 0 40px rgba(56,189,248,.12)}
+.srv-media{position:relative;height:220px;overflow:hidden}
+.srv-media img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.7,.2,1);filter:saturate(1.05)}
+.srv-card:hover .srv-media img{transform:scale(1.09)}
+.srv-media::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(6,11,22,.95),transparent 65%)}
+.srv-icon{position:absolute;left:24px;bottom:-24px;z-index:2;width:52px;height:52px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,#0ea5e9,#6366f1);box-shadow:0 10px 26px rgba(14,165,233,.45);transition:.4s}
+.srv-card:hover .srv-icon{transform:rotate(-8deg) scale(1.08)}
+.srv-icon svg{width:25px;height:25px;color:#fff}
+.srv-body{padding:42px 26px 28px}
+.srv-body h3{font-size:1.28rem;font-weight:700;margin-bottom:10px}
+.srv-body p{color:var(--muted);font-size:.93rem;margin-bottom:18px}
+.srv-list{display:grid;gap:9px;margin-bottom:22px}
+.srv-list li{display:flex;gap:10px;align-items:center;font-size:.88rem;color:#c3d2e2}
+.srv-list svg{width:16px;height:16px;color:var(--cyan);flex:none}
+.srv-link{display:inline-flex;align-items:center;gap:8px;color:var(--cyan);font-weight:700;font-size:.9rem;transition:.3s}
+.srv-link:hover{gap:13px;text-shadow:0 0 14px rgba(34,211,238,.7)}
+.srv-link svg{width:16px;height:16px}
+
+/* ============ PROCESSO ============ */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;position:relative}
+.steps::before{content:"";position:absolute;top:34px;left:8%;right:8%;height:2px;background:linear-gradient(90deg,transparent,rgba(56,189,248,.5),rgba(34,211,238,.5),transparent);z-index:0}
+.step{text-align:center;position:relative;z-index:1}
+.step-num{width:68px;height:68px;margin:0 auto 20px;border-radius:20px;display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-size:1.35rem;font-weight:700;color:var(--cyan);background:rgba(8,15,28,.9);border:1px solid rgba(56,189,248,.45);box-shadow:0 0 0 6px rgba(56,189,248,.07);transition:.4s;position:relative}
+.step:hover .step-num{transform:translateY(-7px) rotate(6deg);box-shadow:0 0 0 8px rgba(56,189,248,.12),0 0 34px rgba(56,189,248,.4)}
+.step h3{font-size:1.05rem;margin-bottom:9px}
+.step p{color:var(--muted);font-size:.88rem}
+
+/* ============ SOBRE ============ */
+.about-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:64px;align-items:center}
+.about-media{position:relative}
+.about-media .main-img{border-radius:24px;overflow:hidden;border:1px solid var(--line);box-shadow:0 26px 70px rgba(2,8,20,.75)}
+.about-media .main-img img{aspect-ratio:4/3.4;object-fit:cover;width:100%;transition:transform .9s}
+.about-media:hover .main-img img{transform:scale(1.06)}
+.about-card{position:absolute;right:-24px;bottom:-28px;background:rgba(8,15,28,.9);backdrop-filter:blur(14px);border:1px solid rgba(56,189,248,.4);border-radius:18px;padding:18px 22px;display:flex;gap:14px;align-items:center;animation:float 5.5s ease-in-out infinite}
+.about-card b{font-size:1.5rem;display:block;line-height:1.1}
+.about-card span{color:var(--muted);font-size:.8rem}
+.about-card .ring{width:52px;height:52px;flex:none;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--cyan) 0 98%,rgba(148,163,184,.2) 0);position:relative}
+.about-card .ring::before{content:"";position:absolute;inset:4px;border-radius:50%;background:#08101e}
+.about-card .ring svg{position:relative;width:22px;height:22px;color:var(--cyan)}
+.about-txt h2{font-size:clamp(1.8rem,3.2vw,2.5rem);font-weight:800;letter-spacing:-.02em;margin-bottom:18px;line-height:1.15}
+.about-txt>p{color:var(--muted);margin-bottom:28px}
+.checks{display:grid;gap:15px;margin-bottom:32px}
+.checks li{display:flex;gap:13px;align-items:flex-start;font-size:.95rem}
+.checks .ck{width:26px;height:26px;flex:none;border-radius:9px;display:grid;place-items:center;background:rgba(34,211,238,.13);border:1px solid rgba(34,211,238,.45)}
+.checks .ck svg{width:14px;height:14px;color:var(--cyan)}
+.checks b{display:block}
+.checks small{color:var(--muted)}
+
+/* ============ SIMULADOR DE VALORES ============ */
+.sim-panel{border-radius:26px;border:1px solid rgba(56,189,248,.35);background:linear-gradient(160deg,rgba(14,165,233,.1),rgba(99,102,241,.06));padding:34px 30px;margin-bottom:44px;backdrop-filter:blur(10px)}
+.sim-title{display:flex;align-items:center;gap:12px;font-weight:800;font-size:1.15rem;margin-bottom:8px}
+.sim-title svg{width:22px;height:22px;color:var(--cyan)}
+.sim-hint{color:var(--muted);font-size:.9rem;margin-bottom:26px}
+.sim-hint a{color:var(--cyan);font-weight:700;border-bottom:1px dashed rgba(34,211,238,.5)}
+.sim-row{display:flex;flex-wrap:wrap;gap:18px 34px;align-items:center}
+.sim-label{font-family:'JetBrains Mono',monospace;font-size:.8rem;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;min-width:150px}
+.seg{display:inline-flex;padding:5px;gap:5px;background:rgba(4,10,20,.7);border:1px solid var(--line);border-radius:14px}
+.seg-btn{padding:11px 22px;border-radius:10px;font-weight:700;font-size:.92rem;color:var(--muted);transition:.3s;display:inline-flex;align-items:center;gap:9px}
+.seg-btn svg{width:16px;height:16px}
+.seg-btn:hover{color:#fff}
+.seg-btn.on{background:var(--grad);color:#04121f;box-shadow:0 6px 18px rgba(56,189,248,.35)}
+.sim-result{margin-top:26px;padding-top:22px;border-top:1px dashed rgba(148,163,184,.25);display:flex;flex-wrap:wrap;gap:14px 40px;align-items:center;font-size:.95rem;color:var(--muted)}
+.sim-result b{color:#fff}
+.sim-result .mono{color:var(--cyan)}
+/* cards de plano */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;align-items:stretch}
+.plan{position:relative;border-radius:22px;padding:38px 30px;background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column;transition:.4s;overflow:hidden}
+.plan:hover{transform:translateY(-10px);border-color:rgba(56,189,248,.5);box-shadow:0 26px 60px rgba(2,8,20,.7)}
+.plan.popular{background:linear-gradient(160deg,rgba(14,165,233,.14),rgba(99,102,241,.09));border-color:rgba(56,189,248,.6);box-shadow:0 0 50px rgba(56,189,248,.15)}
+.plan-tag{position:absolute;top:20px;right:-38px;transform:rotate(38deg);background:var(--grad);color:#04121f;font-size:.68rem;font-weight:800;padding:6px 46px;letter-spacing:.12em}
+.plan h3{font-size:1.15rem;margin-bottom:6px}
+.plan .p-desc{color:var(--muted);font-size:.86rem;margin-bottom:22px}
+.price{font-size:2.5rem;font-weight:800;letter-spacing:-.03em;margin-bottom:4px;display:inline-block}
+.price small{font-size:.85rem;font-weight:600;color:var(--muted);letter-spacing:0}
+.price.bump{animation:bump .45s cubic-bezier(.3,1.6,.4,1)}
+@keyframes bump{0%{transform:scale(1)}45%{transform:scale(1.14);filter:brightness(1.4)}100%{transform:scale(1)}}
+.plan-ed{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--cyan);letter-spacing:.1em;margin-bottom:14px;display:block}
+.plan ul{display:grid;gap:12px;margin:24px 0 30px;flex:1}
+.plan ul li{display:flex;gap:10px;font-size:.9rem;color:#c9d6e4;align-items:center}
+.plan ul svg{width:16px;height:16px;color:var(--cyan);flex:none}
+.plan .btn{justify-content:center}
+.combo-tag{display:none;margin-top:6px;font-size:.78rem;color:#4ade80;font-weight:700}
+.combo-tag.show{display:block}
+/* tabela de preços */
+.tabela-wrap{margin-top:44px;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:rgba(8,15,28,.6);backdrop-filter:blur(8px)}
+.tabela-wrap table{width:100%;border-collapse:collapse;font-size:.92rem}
+.tabela-wrap th{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-align:left;padding:16px 22px;border-bottom:1px solid var(--line)}
+.tabela-wrap td{padding:15px 22px;border-bottom:1px solid rgba(148,163,184,.08);color:#c9d6e4}
+.tabela-wrap tr:last-child td{border-bottom:none}
+.tabela-wrap tbody tr{transition:.3s;cursor:default}
+.tabela-wrap tbody tr:hover{background:rgba(56,189,248,.05)}
+.tabela-wrap tbody tr.sel{background:rgba(56,189,248,.1);box-shadow:inset 3px 0 0 var(--cyan)}
+.tabela-wrap tbody tr.sel td:first-child b{color:var(--cyan)}
+.tabela-note{padding:14px 22px;font-size:.78rem;color:var(--muted);border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace}
+
+/* ============ DEPOIMENTOS ============ */
+.t-wrap{position:relative;max-width:820px;margin:0 auto}
+.t-view{overflow:hidden;border-radius:24px}
+.t-track{display:flex;transition:transform .7s cubic-bezier(.25,.8,.25,1)}
+.t-slide{min-width:100%;padding:46px 52px;background:var(--card);border:1px solid var(--line);border-radius:24px;text-align:center}
+.t-stars{display:flex;gap:5px;justify-content:center;margin-bottom:20px;color:#fbbf24;font-size:1.05rem;letter-spacing:.2em}
+.t-slide blockquote{font-size:1.08rem;color:#dbe7f3;margin-bottom:26px;font-style:italic}
+.t-author{display:flex;align-items:center;justify-content:center;gap:14px}
+.t-avatar{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:var(--grad);color:#04121f;font-size:1.05rem}
+.t-author b{display:block;font-size:.95rem}
+.t-author span{color:var(--muted);font-size:.8rem}
+.t-nav{display:flex;justify-content:center;gap:10px;margin-top:26px}
+.t-dot{width:9px;height:9px;border-radius:99px;background:rgba(148,163,184,.3);transition:.35s}
+.t-dot.on{width:30px;background:var(--grad)}
+.t-arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(8,15,28,.85);border:1px solid var(--line);display:grid;place-items:center;transition:.3s;z-index:2}
+.t-arrow:hover{border-color:var(--blue);box-shadow:0 0 18px rgba(56,189,248,.35)}
+.t-arrow svg{width:18px;height:18px;color:#cfeafd}
+.t-prev{left:-22px}.t-next{right:-22px}
+
+/* ============ FAQ ============ */
+.faq{max-width:780px;margin:0 auto;display:grid;gap:14px}
+.faq-item{border:1px solid var(--line);border-radius:16px;background:var(--card);overflow:hidden;transition:border-color .3s}
+.faq-item.open{border-color:rgba(56,189,248,.5)}
+.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:21px 24px;font-size:1rem;font-weight:600;text-align:left;color:var(--txt)}
+.faq-q .ic{width:30px;height:30px;flex:none;border-radius:9px;display:grid;place-items:center;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.4);transition:.4s}
+.faq-q .ic svg{width:14px;height:14px;color:var(--cyan);transition:.4s}
+.faq-item.open .ic{background:var(--grad)}
+.faq-item.open .ic svg{transform:rotate(45deg);color:#04121f}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.25,.8,.25,1)}
+.faq-a p{padding:0 24px 22px;color:var(--muted);font-size:.93rem}
+
+/* ============ CTA ============ */
+.cta-panel{position:relative;border-radius:30px;padding:70px 40px;text-align:center;overflow:hidden;border:1px solid rgba(56,189,248,.4);background:linear-gradient(150deg,rgba(14,165,233,.16),rgba(99,102,241,.1) 60%,rgba(4,7,15,.4))}
+.cta-panel::before{content:"";position:absolute;inset:-50%;background:conic-gradient(from 0deg,transparent 0 70%,rgba(56,189,248,.25) 78%,transparent 86%);animation:ctaSpin 7s linear infinite}
+@keyframes ctaSpin{to{transform:rotate(360deg)}}
+.cta-inner{position:relative;z-index:1}
+.cta-inner h2{font-size:clamp(1.9rem,4vw,2.9rem);font-weight:800;letter-spacing:-.02em;margin-bottom:14px}
+.cta-inner p{color:var(--muted);max-width:520px;margin:0 auto 34px}
+.cta-note{margin-top:22px;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--muted);letter-spacing:.14em}
+
+/* ============ RODAPÉ ============ */
+footer{position:relative;z-index:1;border-top:1px solid var(--line);background:rgba(4,8,16,.8);backdrop-filter:blur(10px);padding:64px 0 0}
+.ft-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;padding-bottom:48px}
+.ft-grid p{color:var(--muted);font-size:.9rem;margin:16px 0 22px;max-width:300px}
+.ft-grid h4{font-size:.95rem;margin-bottom:18px;letter-spacing:.04em}
+.ft-links{display:grid;gap:11px}
+.ft-links a{color:var(--muted);font-size:.9rem;transition:.3s;width:fit-content}
+.ft-links a:hover{color:var(--cyan);transform:translateX(5px)}
+.ft-bottom{border-top:1px solid var(--line);padding:22px 0;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:.82rem}
+.ft-bottom .mono{color:#5f7186}
+
+/* ============ WHATSAPP FLUTUANTE ============ */
+.wa-float{position:fixed;right:26px;bottom:26px;z-index:950;width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,#1fbf5f,#25d366);display:grid;place-items:center;box-shadow:0 12px 34px rgba(37,211,102,.45);transition:.35s}
+.wa-float:hover{transform:scale(1.1) rotate(6deg)}
+.wa-float svg{width:31px;height:31px;color:#fff}
+.wa-float::before,.wa-float::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid rgba(37,211,102,.6);animation:waPulse 2.2s ease-out infinite}
+.wa-float::after{animation-delay:1.1s}
+@keyframes waPulse{to{transform:scale(1.75);opacity:0}}
+.wa-tip{position:absolute;right:76px;top:50%;transform:translateY(-50%) translateX(8px);background:rgba(8,15,28,.95);border:1px solid var(--line);padding:9px 15px;border-radius:12px;font-size:.8rem;white-space:nowrap;opacity:0;visibility:hidden;transition:.3s;pointer-events:none}
+.wa-float:hover .wa-tip{opacity:1;visibility:visible;transform:translateY(-50%)}
+
+/* ============ REVEAL ============ */
+.reveal{opacity:0;transform:translateY(46px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal.visible{opacity:1;transform:none}
+.reveal.d1{transition-delay:.12s}.reveal.d2{transition-delay:.24s}.reveal.d3{transition-delay:.36s}
+
+/* ============ RESPONSIVO ============ */
+@media(max-width:1024px){
+  .hero-grid{grid-template-columns:1fr;gap:70px}
+  .hero-visual{max-width:560px;margin:0 auto}
+  .srv-grid{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr 1fr;gap:44px}
+  .steps::before{display:none}
+  .about-grid{grid-template-columns:1fr;gap:56px}
+  .plans{grid-template-columns:1fr;max-width:460px;margin:0 auto}
+  .ft-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:760px){
+  .nav-links{position:fixed;inset:0;background:rgba(3,6,13,.97);backdrop-filter:blur(20px);flex-direction:column;justify-content:center;gap:10px;transform:translateX(100%);transition:.5s cubic-bezier(.7,0,.3,1)}
+  header.open .nav-links{transform:none}
+  .nav-links a{font-size:1.2rem}
+  #menuBtn{display:flex;z-index:2}
+  .nav .btn-wa{display:none}
+  .srv-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .t-slide{padding:36px 24px}
+  .t-prev{left:6px}.t-next{right:6px}
+  .scene3d{top:-46px;right:-6px;width:90px;height:90px}
+  .f1{transform:rotateY(0) translateZ(45px)}.f2{transform:rotateY(90deg) translateZ(45px)}
+  .f3{transform:rotateY(180deg) translateZ(45px)}.f4{transform:rotateY(270deg) translateZ(45px)}
+  .f5{transform:rotateX(90deg) translateZ(45px)}.f6{transform:rotateX(-90deg) translateZ(45px)}
+  .bf-1{left:-4px}.bf-2{right:-4px}
+  .ft-grid{grid-template-columns:1fr}
+  section{padding:84px 0}
+  .sim-row{flex-direction:column;align-items:flex-start;gap:10px}
+  .tabela-wrap{overflow-x:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <div class="pre-logo"><i></i><i></i><i></i><i></i></div>
+  <div class="pre-bar"><i></i></div>
+  <div class="pre-txt">CARREGANDO SISTEMA...</div>
+</div>
+
+<!-- CURSOR -->
+<div class="cur-dot"></div><div class="cur-ring"></div>
+<div id="progress"></div>
+
+<!-- FUNDO WEBGL -->
+<canvas id="glbg"></canvas>
+
+<!-- ============ NAVBAR ============ -->
+<header id="header">
+  <div class="container nav">
+    <a href="#inicio" class="logo">
+      <span class="logo-mark"><i></i><i></i><i></i><i></i></span>
+      Ativa<span class="grad-text">Tech</span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#inicio" class="active">Início</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#processo">Como funciona</a>
+      <a href="#planos">Valores</a>
+      <a href="#depoimentos">Depoimentos</a>
+      <a href="#faq">Dúvidas</a>
+    </nav>
+    <a href="#" data-wa class="btn btn-wa">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Pedir orçamento
+    </a>
+    <button id="menuBtn" aria-label="Abrir menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+<!-- ============ HERO ============ -->
+<section id="inicio">
+  <canvas id="particles"></canvas>
+  <div class="container hero-grid">
+    <div class="hero-txt">
+      <div class="hero-badge reveal"><span class="pulse-dot"></span> Atendimento disponível • Presencial e remoto</div>
+      <h1 class="reveal d1">Seu PC como novo com <span class="grad-text">Windows ativado</span> e formatação impecável</h1>
+      <div class="typed-wrap reveal d2"><span>&gt; </span><span id="typed"></span><span class="caret"></span></div>
+      <p class="hero-sub reveal d2">Ativamos, formatamos, limpamos e otimizamos seu computador com rapidez, garantia e preço transparente. Escolha seu plano abaixo ou chame no WhatsApp agora mesmo.</p>
+      <div class="hero-ctas reveal d3">
+        <a href="#" data-wa data-magnet class="btn btn-wa">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Chamar no WhatsApp
+        </a>
+        <a href="#planos" data-magnet class="btn btn-ghost">Ver valores
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14m0 0l-6-6m6 6l6-6"/></svg>
+        </a>
+      </div>
+      <div class="hero-stats reveal d3">
+        <div class="stat"><b class="grad-text"><span data-count="1250">0</span>+</b><span>clientes atendidos</span></div>
+        <div class="stat"><b class="grad-text"><span data-count="8">0</span> anos</b><span>de experiência</span></div>
+        <div class="stat"><b class="grad-text"><span data-count="98">0</span>%</b><span>de satisfação</span></div>
+        <div class="stat"><b class="grad-text"><span data-count="24">0</span>h</b><span>prazo médio</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual reveal d1">
+      <div class="float-anim">
+        <div class="hero-frame" data-tilt>
+          <img src="img/hero-pc.jpg" alt="Computador gamer com logo do Windows brilhando">
+          <div class="shine"></div>
+        </div>
+      </div>
+      <div class="orbit"><i></i></div>
+      <div class="badge-float bf-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        Windows ativado
+      </div>
+      <div class="badge-float bf-2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+        Pronto em até 24h
+      </div>
+      <div class="scene3d">
+        <div class="cube">
+          <div class="face f1"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L7.438 2.425v7.19H0V3.449zm8.438-1.142L19 0v9.615H8.438V2.307zM0 10.577h7.438v7.19L0 16.728v-6.151zm8.438 0H19V20l-10.562-1.429v-8.994z"/></svg></div>
+          <div class="face f2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="8" cy="15" r="4.5"/><path d="M11 12L20 3m-3 0l3 3m-5 1l2.5 2.5"/></svg></div>
+          <div class="face f3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4m6-4v4M9 18v4m6-4v4M2 9h4m-4 6h4m12-6h4m-4 6h4"/></svg></div>
+          <div class="face f4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <div class="face f5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg></div>
+          <div class="face f6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M4.9 4.9l2.1 2.1m10 10l2.1 2.1m0-14.2l-2.1 2.1m-10 10l-2.1 2.1"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee">
+  <div class="mq-track" id="mqTrack">
+    <span class="mq-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L7.438 2.425v7.19H0V3.449zm8.438-1.142L19 0v9.615H8.438V2.307zM0 10.577h7.438v7.19L0 16.728v-6.151zm8.438 0H19V20l-10.562-1.429v-8.994z"/></svg>Windows 10 & 11</span>
+    <span class="mq-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="8" cy="15" r="4.5"/><path d="M11 12L20 3m-3 0l3 3"/></svg>Licença original</span>
+    <span class="mq-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>Formatação rápida</span>
+    <span class="mq-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4m6-4v4M9 18v4m6-4v4M2 9h4m-4 6h4m12-6h4m-4 6h4"/></svg>Upgrade de SSD</span>
+    <span class="mq-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>Garantia de 90 dias</span>
+    <span class="mq-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Suporte no WhatsApp</span>
+  </div>
+</div>
+
+<!-- ============ SERVIÇOS ============ -->
+<section id="servicos">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="sec-tag">Serviços</span>
+      <h2>Soluções completas para o seu <span class="grad-text">computador</span></h2>
+      <p>Da ativação do Windows à transformação total da sua máquina — tudo com garantia e atendimento presencial ou remoto.</p>
+    </div>
+    <div class="srv-grid">
+      <article class="srv-card reveal" data-tilt>
+        <div class="srv-media">
+          <img src="img/ativacao-windows.jpg" alt="Ativação do Windows com chave holográfica" loading="lazy">
+          <div class="srv-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L7.438 2.425v7.19H0V3.449zm8.438-1.142L19 0v9.615H8.438V2.307zM0 10.577h7.438v7.19L0 16.728v-6.151zm8.438 0H19V20l-10.562-1.429v-8.994z"/></svg></div>
+        </div>
+        <div class="srv-body">
+          <h3>Ativação de Windows</h3>
+          <p>Ativação digital definitiva do Windows 10 e 11, nas versões Home e Pro, com licença original e suporte total.</p>
+          <ul class="srv-list">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Licença digital 100% original</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Windows 10 & 11 — Home e Pro</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Ativação em minutos, até remota</li>
+          </ul>
+          <a href="#planos" class="srv-link">Ver valores <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
+        </div>
+      </article>
+      <article class="srv-card reveal d1" data-tilt>
+        <div class="srv-media">
+          <img src="img/ssd-formatacao.jpg" alt="SSD e memórias RAM com fluxo de dados" loading="lazy">
+          <div class="srv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.3 7L12 12l8.7-5M12 22V12"/></svg></div>
+        </div>
+        <div class="srv-body">
+          <h3>Formatação & Instalação Limpa</h3>
+          <p>Formatação do zero com backup seguro, instalação limpa do sistema e tudo pronto pra usar — preço único.</p>
+          <ul class="srv-list">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Backup completo dos seus arquivos</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Drivers + programas essenciais</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Otimização pós-instalação</li>
+          </ul>
+          <a href="#planos" class="srv-link">Ver valores <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
+        </div>
+      </article>
+      <article class="srv-card reveal d2" data-tilt>
+        <div class="srv-media">
+          <img src="img/manutencao-pc.jpg" alt="Técnico fazendo limpeza interna em um PC" loading="lazy">
+          <div class="srv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M4.9 4.9l2.1 2.1m10 10l2.1 2.1m0-14.2l-2.1 2.1m-10 10l-2.1 2.1"/></svg></div>
+        </div>
+        <div class="srv-body">
+          <h3>Limpeza & Manutenção</h3>
+          <p>Limpeza interna profunda, troca de pasta térmica e controle de temperatura para seu PC viver mais e melhor.</p>
+          <ul class="srv-list">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Limpeza interna + pasta térmica</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Relatório de temperaturas e ruídos</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Prevenção para PC e notebook</li>
+          </ul>
+          <a href="#" data-wa class="srv-link">Orçamento no WhatsApp <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
+        </div>
+      </article>
+      <article class="srv-card reveal d3" data-tilt>
+        <div class="srv-media">
+          <img src="img/bancada-tech.jpg" alt="Bancada de trabalho com notebook desmontado e ferramentas" loading="lazy">
+          <div class="srv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg></div>
+        </div>
+        <div class="srv-body">
+          <h3>Otimização & Upgrade</h3>
+          <p>Seu PC lento virando uma máquina rápida: SSD, memória, inicialização e sistema ajustado ponto a ponto.</p>
+          <ul class="srv-list">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Upgrade de HDD para SSD</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Mais memória e desempenho</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Inicialização até 10x mais rápida</li>
+          </ul>
+          <a href="#" data-wa class="srv-link">Orçamento no WhatsApp <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESSO ============ -->
+<section id="processo">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="sec-tag">Como funciona</span>
+      <h2>Simples, rápido e <span class="grad-text">sem complicação</span></h2>
+      <p>Do primeiro contato à entrega, tudo resolvido em até 24 horas na maioria dos casos.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="step-num">01</div><h3>Chame no WhatsApp</h3><p>Conte o que está acontecendo com seu PC e receba o orçamento na hora, sem compromisso.</p></div>
+      <div class="step reveal d1"><div class="step-num">02</div><h3>Diagnóstico gratuito</h3><p>Avaliamos a máquina (presencial ou remoto) e confirmamos versão e edição do seu Windows.</p></div>
+      <div class="step reveal d2"><div class="step-num">03</div><h3>Execução do serviço</h3><p>Ativação, formatação ou manutenção feita com cuidado, backup e comunicação em tempo real.</p></div>
+      <div class="step reveal d3"><div class="step-num">04</div><h3>Entrega + garantia</h3><p>Você recebe o PC testado, otimizado e com 90 dias de garantia no serviço realizado.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOBRE ============ -->
+<section id="sobre">
+  <div class="container about-grid">
+    <div class="about-media reveal">
+      <div class="main-img" data-tilt>
+        <img src="img/manutencao-pc.jpg" alt="Técnico realizando manutenção em computador" loading="lazy">
+      </div>
+      <div class="about-card">
+        <div class="ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div><b class="grad-text">+1.250</b><span>máquinas entregues como novas</span></div>
+      </div>
+    </div>
+    <div class="about-txt">
+      <span class="sec-tag reveal" style="justify-content:flex-start">Por que a AtivaTech?</span>
+      <h2 class="reveal d1">Especialistas em devolver a <span class="grad-text">performance</span> da sua máquina</h2>
+      <p class="reveal d1">Há mais de 8 anos transformamos computadores lentos, desativados e superaquecidos em máquinas rápidas, seguras e prontas pro trabalho. Atendimento transparente do orçamento à entrega.</p>
+      <ul class="checks">
+        <li class="reveal d1"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><b>Licença original com garantia</b><small>Ativação genuína e definitiva, com nota fiscal.</small></div></li>
+        <li class="reveal d2"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><b>Seus dados protegidos</b><small>Backup completo antes de qualquer procedimento.</small></div></li>
+        <li class="reveal d2"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><b>Presencial ou remoto</b><small>Ativação e diagnóstico sem você sair de casa.</small></div></li>
+        <li class="reveal d3"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><b>Suporte pós-serviço</b><small>Não sumimos depois da entrega: suporte direto no WhatsApp.</small></div></li>
+      </ul>
+      <a href="#" data-wa data-magnet class="btn btn-wa reveal d3">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Falar com um especialista
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VALORES / SIMULADOR ============ -->
+<section id="planos">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="sec-tag">Valores</span>
+      <h2>Monte seu plano e veja o <span class="grad-text">preço na hora</span></h2>
+      <p>Escolha a versão e a edição do seu Windows abaixo. O preço atualiza na hora — sem surpresa, sem letra miúda.</p>
+    </div>
+
+    <!-- Simulador -->
+    <div class="sim-panel reveal">
+      <div class="sim-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 2v4m8-4v4M3 10h18"/><path d="M9 15l2 2 4-4"/></svg>
+        Qual é o seu Windows?
+      </div>
+      <p class="sim-hint">Não sabe qual é a versão ou edição? <a href="#" data-wa>Chama no WhatsApp</a> que a gente verifica pra você em minutos, sem custo.</p>
+      <div class="sim-row">
+        <div>
+          <div class="sim-label">1 • Versão</div>
+          <div class="seg" id="segVer" style="margin-top:8px">
+            <button class="seg-btn on" data-ver="11"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L7.438 2.425v7.19H0V3.449zm8.438-1.142L19 0v9.615H8.438V2.307zM0 10.577h7.438v7.19L0 16.728v-6.151zm8.438 0H19V20l-10.562-1.429v-8.994z"/></svg>Windows 11</button>
+            <button class="seg-btn" data-ver="10"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L7.438 2.425v7.19H0V3.449zm8.438-1.142L19 0v9.615H8.438V2.307zM0 10.577h7.438v7.19L0 16.728v-6.151zm8.438 0H19V20l-10.562-1.429v-8.994z"/></svg>Windows 10</button>
+          </div>
+        </div>
+        <div>
+          <div class="sim-label">2 • Edição</div>
+          <div class="seg" id="segEd" style="margin-top:8px">
+            <button class="seg-btn on" data-ed="home">Home</button>
+            <button class="seg-btn" data-ed="pro">Pro</button>
+          </div>
+        </div>
+      </div>
+      <div class="sim-result">
+        <span>Sua seleção: <b id="selResumo">Windows 11 Home</b></span>
+        <span>Ativação: <b class="mono" id="resAtiv">R$ 0</b></span>
+        <span>Formatação: <b class="mono" id="resForm">R$ 0</b></span>
+        <span>Combo completo: <b class="mono" id="resCombo">R$ 0</b></span>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="plans">
+      <div class="plan reveal">
+        <h3>Ativação de Windows</h3>
+        <p class="p-desc">Licença original ativada e definitiva.</p>
+        <span class="plan-ed" id="edAtiv">WINDOWS 11 HOME</span>
+        <div class="price grad-text" id="pAtiv">R$ 0</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Licença digital original</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Ativação remota em minutos</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Definitiva + atualizações oficiais</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Suporte de 7 dias</li>
+        </ul>
+        <a href="#" data-wa-din="ativacao" class="btn btn-ghost">Ativar pelo WhatsApp</a>
+      </div>
+      <div class="plan reveal d1">
+        <h3>Formatação Completa</h3>
+        <p class="p-desc">PC zerado, rápido e pronto pra usar.</p>
+        <span class="plan-ed">PREÇO ÚNICO • QUALQUER PC</span>
+        <div class="price grad-text" id="pForm">R$ 89</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Backup completo dos arquivos</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Instalação limpa do Windows</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Drivers + programas + Office</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Otimização de desempenho</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Suporte de 30 dias</li>
+        </ul>
+        <a href="#" data-wa-din="formatacao" class="btn btn-ghost">Pedir pelo WhatsApp</a>
+      </div>
+      <div class="plan popular reveal d2">
+        <span class="plan-tag">MAIS PEDIDO</span>
+        <h3>Combo Completo</h3>
+        <p class="p-desc">Formatação + ativação: tudo resolvido de uma vez.</p>
+        <span class="plan-ed" id="edCombo">WINDOWS 11 HOME</span>
+        <div class="price grad-text" id="pCombo">R$ 0</div>
+        <span class="combo-tag" id="comboTag"></span>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Tudo da formatação completa</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Ativação original incluída</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Limpeza interna + pasta térmica</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Suporte de 90 dias</li>
+        </ul>
+        <a href="#" data-wa-din="combo" class="btn btn-wa">Pedir pelo WhatsApp</a>
+      </div>
+    </div>
+
+    <!-- Tabela completa -->
+    <div class="tabela-wrap reveal">
+      <table>
+        <thead>
+          <tr><th>Windows</th><th>Ativação</th><th>Formatação</th><th>Combo completo</th></tr>
+        </thead>
+        <tbody id="tabelaPrecos"></tbody>
+      </table>
+      <div class="tabela-note">// A linha destacada é a sua seleção atual • Limpeza e upgrades são orçados pelo WhatsApp //</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEPOIMENTOS ============ -->
+<section id="depoimentos">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="sec-tag">Depoimentos</span>
+      <h2>Quem contratou, <span class="grad-text">recomenda</span></h2>
+    </div>
+    <div class="t-wrap reveal">
+      <button class="t-arrow t-prev" aria-label="Depoimento anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <button class="t-arrow t-next" aria-label="Próximo depoimento"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button>
+      <div class="t-view">
+        <div class="t-track" id="tTrack">
+          <div class="t-slide">
+            <div class="t-stars">★★★★★</div>
+            <blockquote>"Meu PC demorava 5 minutos pra ligar. Depois da formatação com SSD, liga em 15 segundos. Trabalho impecável e tudo resolvido pelo WhatsApp."</blockquote>
+            <div class="t-author"><div class="t-avatar">M</div><div style="text-align:left"><b>Mariana Souza</b><span>Formatação completa + SSD</span></div></div>
+          </div>
+          <div class="t-slide">
+            <div class="t-stars">★★★★★</div>
+            <blockquote>"Ativei o Windows 11 Pro remotamente em menos de 10 minutos. Licença original, tudo explicado, sem mistério. Recomendo de olhos fechados."</blockquote>
+            <div class="t-author"><div class="t-avatar">C</div><div style="text-align:left"><b>Carlos Eduardo</b><span>Ativação Windows 11 Pro</span></div></div>
+          </div>
+          <div class="t-slide">
+            <div class="t-stars">★★★★★</div>
+            <blockquote>"Meu notebook vivia superaquecendo e desligando sozinho. Fizeram limpeza e pasta térmica e ele voltou como novo. Atendimento nota dez!"</blockquote>
+            <div class="t-author"><div class="t-avatar">A</div><div style="text-align:left"><b>Ana Paula Ribeiro</b><span>Limpeza & manutenção</span></div></div>
+          </div>
+          <div class="t-slide">
+            <div class="t-stars">★★★★★</div>
+            <blockquote>"Atendimento rápido, preço justo e o backup voltou tudo organizado. Simulei o valor no site e foi exatamente o que paguei. Virei cliente fixo."</blockquote>
+            <div class="t-author"><div class="t-avatar">R</div><div style="text-align:left"><b>Rafael Lima</b><span>Combo completo Windows 10 Home</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="t-nav" id="tNav"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="sec-tag">Dúvidas</span>
+      <h2>Perguntas <span class="grad-text">frequentes</span></h2>
+    </div>
+    <div class="faq">
+      <div class="faq-item reveal"><button class="faq-q">Como sei se meu Windows é Home ou Pro, 10 ou 11?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="faq-a"><p>É fácil: vá em Configurações &gt; Sistema &gt; Sobre — lá aparece "Edição" e "Versão". Mas se preferir, manda um print da tela no WhatsApp que a gente identifica pra você na hora e já passa o valor exato.</p></div></div>
+      <div class="faq-item reveal d1"><button class="faq-q">A ativação do Windows é original e definitiva?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="faq-a"><p>Sim. Trabalhamos com licença digital genuína, ativação definitiva e direito a todas as atualizações oficiais do Windows. Você recebe garantia e suporte inclusos.</p></div></div>
+      <div class="faq-item reveal d1"><button class="faq-q">Perco meus arquivos na formatação?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="faq-a"><p>Não. Antes de qualquer procedimento fazemos backup completo das suas fotos, documentos e arquivos. Tudo devolvido organizado após a instalação.</p></div></div>
+      <div class="faq-item reveal d2"><button class="faq-q">Quanto tempo demora o serviço?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="faq-a"><p>Ativação remota leva poucos minutos. Formatação completa e manutenções costumam ser entregues em até 24–48h, dependendo da máquina e do volume de dados.</p></div></div>
+      <div class="faq-item reveal d2"><button class="faq-q">O valor do site é o valor final?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="faq-a"><p>Sim para ativação, formatação e combo — o simulador mostra o preço exato da sua seleção. Serviços de limpeza, upgrade de SSD e memória são orçados pelo WhatsApp após o diagnóstico gratuito.</p></div></div>
+      <div class="faq-item reveal d2"><button class="faq-q">Qual garantia eu tenho?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="faq-a"><p>Todos os serviços têm 90 dias de garantia sobre o procedimento realizado, além de suporte pós-serviço pelo WhatsApp para qualquer dúvida.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA FINAL ============ -->
+<section id="contato">
+  <div class="container">
+    <div class="cta-panel reveal">
+      <div class="cta-inner">
+        <h2>PC lento ou Windows <span class="grad-text">desativado</span>?</h2>
+        <p>Clique no botão, fale com a gente no WhatsApp e receba sua máquina como nova em até 24 horas.</p>
+        <a href="#" data-wa data-magnet class="btn btn-wa" style="font-size:1.05rem;padding:17px 34px">
+          <svg viewBox="0 0 24 24" fill="currentColor" style="width:22px;height:22px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Quero meu orçamento agora
+        </a>
+        <div class="cta-note">// ATENDIMENTO PRESENCIAL & REMOTO • RESPOSTA RÁPIDA • GARANTIA DE 90 DIAS //</div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============ RODAPÉ ============ -->
+<footer>
+  <div class="container">
+    <div class="ft-grid">
+      <div>
+        <a href="#inicio" class="logo"><span class="logo-mark"><i></i><i></i><i></i><i></i></span>Ativa<span class="grad-text">Tech</span></a>
+        <p>Ativação de Windows, formatação, manutenção e upgrade com garantia, rapidez e atendimento presencial ou remoto.</p>
+        <a href="#" data-wa class="btn btn-wa" style="padding:12px 22px;font-size:.88rem">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Chamar no WhatsApp
+        </a>
+      </div>
+      <div>
+        <h4>Navegação</h4>
+        <div class="ft-links">
+          <a href="#inicio">Início</a><a href="#servicos">Serviços</a><a href="#processo">Como funciona</a><a href="#planos">Valores</a><a href="#depoimentos">Depoimentos</a><a href="#faq">Dúvidas</a>
+        </div>
+      </div>
+      <div>
+        <h4>Serviços</h4>
+        <div class="ft-links">
+          <a href="#planos">Ativação de Windows</a><a href="#planos">Formatação completa</a><a href="#servicos">Limpeza & manutenção</a><a href="#servicos">SSD & upgrades</a>
+        </div>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <span>© <span id="year"></span> AtivaTech — Todos os direitos reservados.</span>
+      <span class="mono">&lt;/&gt; feito com paixão por hardware</span>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLUTUANTE -->
+<a href="#" data-wa class="wa-float" aria-label="Chamar no WhatsApp">
+  <span class="wa-tip">Precisa de ajuda? Chama no zap!</span>
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<button id="toTop" aria-label="Voltar ao topo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#cfeafd" stroke-width="2.4" stroke-linecap="round"><path d="M12 19V5m0 0l-6 6m6-6l6 6"/></svg></button>
+
+<script>
+/* =====================================================
+   ===== CONFIGURE AQUI: WHATSAPP E PREÇOS =====
+   whatsapp: só dígitos, com DDI e DDD (ex: 5511999998888)
+   precos.ativacao: chave = "versão-edição"
+   precos.descontoCombo: desconto (R$) aplicado no Combo (0 = sem desconto)
+===================================================== */
+const CONFIG = {
+  whatsapp: "5500000000000",
+  mensagem: "Olá! Vim pelo site da AtivaTech e quero um orçamento. 🚀",
+  precos: {
+    formatacao: 89,
+    ativacao: {
+      "10-home": 50,
+      "10-pro": 60,
+      "11-home": 55,
+      "11-pro": 65
+    },
+    descontoCombo: 0
+  }
+};
+
+/* ---- Estado da seleção do simulador ---- */
+let selVer = "11", selEd = "home";
+const waLink = msg => "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(msg);
+const edLabel = () => selEd === "pro" ? "Pro" : "Home";
+const chave = () => selVer + "-" + selEd;
+const precoAtiv = () => CONFIG.precos.ativacao[chave()];
+const precoCombo = () => CONFIG.precos.formatacao + precoAtiv() - CONFIG.precos.descontoCombo;
+
+/* ---- Links WhatsApp genéricos ---- */
+document.querySelectorAll('[data-wa]').forEach(el => {
+  el.href = waLink(CONFIG.mensagem);
+  el.target = "_blank"; el.rel = "noopener";
+});
+
+/* ---- Simulador de valores ---- */
+const elPAtiv = document.getElementById('pAtiv'),
+      elPForm = document.getElementById('pForm'),
+      elPCombo = document.getElementById('pCombo'),
+      elEdAtiv = document.getElementById('edAtiv'),
+      elEdCombo = document.getElementById('edCombo'),
+      elResumo = document.getElementById('selResumo'),
+      elResAtiv = document.getElementById('resAtiv'),
+      elResForm = document.getElementById('resForm'),
+      elResCombo = document.getElementById('resCombo'),
+      elComboTag = document.getElementById('comboTag');
+
+function setPrice(el, v){
+  el.textContent = "R$ " + v;
+  el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump');
+}
+
+/* Tabela de preços gerada do CONFIG (fonte única de verdade) */
+(function montarTabela(){
+  const linhas = [["10","Home"],["10","Pro"],["11","Home"],["11","Pro"]];
+  document.getElementById('tabelaPrecos').innerHTML = linhas.map(([v,e]) => {
+    const k = v + "-" + e.toLowerCase();
+    const pa = CONFIG.precos.ativacao[k];
+    const pc = CONFIG.precos.formatacao + pa - CONFIG.precos.descontoCombo;
+    return `<tr data-row="${k}"><td><b>Windows ${v} ${e}</b></td><td>R$ ${pa}</td><td>R$ ${CONFIG.precos.formatacao}</td><td><b class="grad-text">R$ ${pc}</b></td></tr>`;
+  }).join("");
+})();
+
+function atualizarPrecos(){
+  const pa = precoAtiv(), pf = CONFIG.precos.formatacao, pc = precoCombo();
+  const rotulo = "Windows " + selVer + " " + edLabel();
+  setPrice(elPAtiv, pa); setPrice(elPCombo, pc);
+  elPForm.textContent = "R$ " + pf;
+  elEdAtiv.textContent = rotulo.toUpperCase();
+  elEdCombo.textContent = rotulo.toUpperCase();
+  elResumo.textContent = rotulo;
+  elResAtiv.textContent = "R$ " + pa;
+  elResForm.textContent = "R$ " + pf;
+  elResCombo.textContent = "R$ " + pc;
+  if(CONFIG.precos.descontoCombo > 0){
+    elComboTag.textContent = "Você economiza R$ " + CONFIG.precos.descontoCombo + " no combo!";
+    elComboTag.classList.add('show');
+  } else elComboTag.classList.remove('show');
+  document.querySelectorAll('#tabelaPrecos tr').forEach(tr =>
+    tr.classList.toggle('sel', tr.dataset.row === chave()));
+  /* Botões dinâmicos: mensagem já leva a seleção e o preço */
+  document.querySelectorAll('[data-wa-din]').forEach(el => {
+    const tipo = el.dataset.waDin;
+    let msg;
+    if(tipo === "ativacao")       msg = `Olá! Quero ativar o ${rotulo} (R$ ${pa}).`;
+    else if(tipo === "formatacao")msg = `Olá! Quero agendar a formatação completa (R$ ${pf}).`;
+    else                          msg = `Olá! Quero o Combo Completo para ${rotulo} (R$ ${pc}).`;
+    el.href = waLink(msg);
+    el.target = "_blank"; el.rel = "noopener";
+  });
+}
+
+document.querySelectorAll('#segVer .seg-btn').forEach(b => b.onclick = () => {
+  selVer = b.dataset.ver;
+  document.querySelectorAll('#segVer .seg-btn').forEach(x => x.classList.toggle('on', x === b));
+  atualizarPrecos();
+});
+document.querySelectorAll('#segEd .seg-btn').forEach(b => b.onclick = () => {
+  selEd = b.dataset.ed;
+  document.querySelectorAll('#segEd .seg-btn').forEach(x => x.classList.toggle('on', x === b));
+  atualizarPrecos();
+});
+atualizarPrecos();
+
+/* ---- Preloader ---- */
+const pre = document.getElementById('preloader');
+const hidePre = () => pre.classList.add('done');
+window.addEventListener('load', () => setTimeout(hidePre, 600));
+setTimeout(hidePre, 4000); // segurança
+
+/* ---- Cursor personalizado ---- */
+if(matchMedia('(hover:hover) and (pointer:fine)').matches){
+  const dot = document.querySelector('.cur-dot'), ring = document.querySelector('.cur-ring');
+  let mx = innerWidth/2, my = innerHeight/2, rx = mx, ry = my;
+  addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; dot.style.left = mx+'px'; dot.style.top = my+'px'; });
+  (function loop(){ rx += (mx-rx)*.16; ry += (my-ry)*.16; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(loop); })();
+  document.querySelectorAll('a,button,.srv-card,[data-tilt]').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+  });
+}else{
+  document.querySelector('.cur-dot').style.display = 'none';
+  document.querySelector('.cur-ring').style.display = 'none';
+}
+
+/* ---- Navbar / progresso / voltar ao topo ---- */
+const header = document.getElementById('header'), prog = document.getElementById('progress'), toTop = document.getElementById('toTop');
+addEventListener('scroll', () => {
+  const y = scrollY;
+  header.classList.toggle('scrolled', y > 40);
+  prog.style.width = (y / (document.body.scrollHeight - innerHeight) * 100) + '%';
+  toTop.classList.toggle('show', y > 600);
+}, {passive:true});
+toTop.onclick = () => scrollTo({top:0, behavior:'smooth'});
+document.getElementById('menuBtn').onclick = () => header.classList.toggle('open');
+document.querySelectorAll('.nav-links a').forEach(a => a.onclick = () => header.classList.remove('open'));
+
+/* ---- Scrollspy ---- */
+const spy = new IntersectionObserver(es => {
+  es.forEach(e => { if(e.isIntersecting){
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+  }});
+}, {rootMargin:'-45% 0px -50% 0px'});
+document.querySelectorAll('section[id]').forEach(s => spy.observe(s));
+
+/* ---- Revelar ao rolar ---- */
+const rev = new IntersectionObserver(es => {
+  es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); rev.unobserve(e.target); } });
+}, {threshold:.14});
+document.querySelectorAll('.reveal').forEach(el => rev.observe(el));
+
+/* ---- Contadores animados ---- */
+const cnt = new IntersectionObserver(es => {
+  es.forEach(e => {
+    if(!e.isIntersecting) return;
+    const el = e.target, end = +el.dataset.count, t0 = performance.now();
+    (function tick(t){
+      const p = Math.min((t - t0) / 1700, 1), ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(end * ease).toLocaleString('pt-BR');
+      if(p < 1) requestAnimationFrame(tick);
+    })(t0);
+    cnt.unobserve(el);
+  });
+}, {threshold:.6});
+document.querySelectorAll('[data-count]').forEach(el => cnt.observe(el));
+
+/* ---- Efeito de digitação ---- */
+const frases = ["ativando Windows 10 & 11...","formatando com backup seguro...","limpando e fazendo manutenção...","upgradando SSD e otimizando..."];
+const typedEl = document.getElementById('typed');
+let pi = 0, ci = 0, del = false;
+(function type(){
+  const ph = frases[pi];
+  typedEl.textContent = ph.slice(0, ci);
+  if(!del && ci < ph.length){ ci++; setTimeout(type, 55); }
+  else if(!del){ del = true; setTimeout(type, 1600); }
+  else if(ci > 0){ ci--; setTimeout(type, 28); }
+  else { del = false; pi = (pi + 1) % frases.length; setTimeout(type, 300); }
+})();
+
+/* ---- Tilt 3D ---- */
+document.querySelectorAll('[data-tilt]').forEach(el => {
+  el.style.transition = 'transform .18s ease-out';
+  el.addEventListener('mousemove', e => {
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5;
+    el.style.transform = `perspective(950px) rotateY(${px*9}deg) rotateX(${-py*9}deg) scale(1.02)`;
+  });
+  el.addEventListener('mouseleave', () => el.style.transform = 'perspective(950px) rotateX(0) rotateY(0)');
+});
+
+/* ---- Botões magnéticos ---- */
+document.querySelectorAll('[data-magnet]').forEach(el => {
+  el.addEventListener('mousemove', e => {
+    const r = el.getBoundingClientRect();
+    el.style.transform = `translate(${(e.clientX - r.left - r.width/2)*.14}px, ${(e.clientY - r.top - r.height/2)*.22}px)`;
+  });
+  el.addEventListener('mouseleave', () => el.style.transform = '');
+});
+
+/* ---- Marquee sem emenda ---- */
+const mq = document.getElementById('mqTrack');
+mq.innerHTML += mq.innerHTML;
+
+/* ---- Carrossel de depoimentos ---- */
+const track = document.getElementById('tTrack'), slides = track.children, tNav = document.getElementById('tNav');
+let ti = 0, tTimer;
+for(let i = 0; i < slides.length; i++){
+  const d = document.createElement('button');
+  d.className = 't-dot' + (i === 0 ? ' on' : ''); d.setAttribute('aria-label', 'Depoimento ' + (i+1));
+  d.onclick = () => { goT(i); resetT(); };
+  tNav.appendChild(d);
+}
+function goT(i){
+  ti = (i + slides.length) % slides.length;
+  track.style.transform = `translateX(-${ti*100}%)`;
+  [...tNav.children].forEach((d,k) => d.classList.toggle('on', k === ti));
+}
+document.querySelector('.t-next').onclick = () => { goT(ti+1); resetT(); };
+document.querySelector('.t-prev').onclick = () => { goT(ti-1); resetT(); };
+function resetT(){ clearInterval(tTimer); tTimer = setInterval(() => goT(ti+1), 6000); }
+resetT();
+document.querySelector('.t-wrap').addEventListener('mouseenter', () => clearInterval(tTimer));
+document.querySelector('.t-wrap').addEventListener('mouseleave', resetT);
+
+/* ---- FAQ acordeão ---- */
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.querySelector('.faq-q').onclick = () => {
+    const aberto = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(o => { o.classList.remove('open'); o.querySelector('.faq-a').style.maxHeight = null; });
+    if(!aberto){ item.classList.add('open'); const a = item.querySelector('.faq-a'); a.style.maxHeight = a.scrollHeight + 'px'; }
+  };
+});
+
+/* ---- Partículas do hero ---- */
+(function(){
+  const cv = document.getElementById('particles'), ctx = cv.getContext('2d');
+  let W, H, pts = [], mouse = {x:-9999, y:-9999};
+  function size(){
+    W = cv.width = cv.offsetWidth; H = cv.height = cv.offsetHeight;
+    const n = Math.min(85, Math.floor(W * H / 16000));
+    pts = Array.from({length:n}, () => ({x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*.45, vy:(Math.random()-.5)*.45, r:Math.random()*1.8+.6}));
+  }
+  size(); addEventListener('resize', size);
+  addEventListener('mousemove', e => { const r = cv.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; });
+  (function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(const p of pts){
+      p.x += p.vx; p.y += p.vy;
+      if(p.x < 0 || p.x > W) p.vx *= -1; if(p.y < 0 || p.y > H) p.vy *= -1;
+      const dx = p.x - mouse.x, dy = p.y - mouse.y, dm = Math.hypot(dx,dy);
+      if(dm < 110 && dm > 0){ p.x += dx/dm*1.2; p.y += dy/dm*1.2; }
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 7); ctx.fillStyle = 'rgba(56,189,248,.75)'; ctx.fill();
+    }
+    for(let i = 0; i < pts.length; i++) for(let j = i+1; j < pts.length; j++){
+      const a = pts[i], b = pts[j], d = Math.hypot(a.x-b.x, a.y-b.y);
+      if(d < 120){ ctx.strokeStyle = `rgba(34,211,238,${(1-d/120)*.28})`; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
+    }
+    requestAnimationFrame(draw);
+  })();
+})();
+
+/* ---- Fundo WebGL (aurora animada) ---- */
+(function(){
+  const cv = document.getElementById('glbg');
+  const gl = cv.getContext('webgl') || cv.getContext('experimental-webgl');
+  if(!gl){ cv.style.display = 'none'; return; }
+  const vs = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+  const fs = `precision highp float;uniform vec2 r;uniform float t;
+  float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+  float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
+    return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}
+  float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*n(p);p*=2.;a*=.5;}return v;}
+  void main(){
+    vec2 uv=(gl_FragCoord.xy-.5*r)/r.y; vec2 q=uv*1.7;
+    float f1=fbm(q+vec2(t*.06,-t*.045));
+    float f2=fbm(q*1.9-vec2(t*.05,t*.03)+f1);
+    float aurora=smoothstep(.4,.98,f1*.6+f2*.72);
+    vec3 col=mix(vec3(.012,.028,.075),vec3(.02,.085,.2),smoothstep(-.7,.9,uv.y*.55+f1));
+    col=mix(col,vec3(.0,.42,.82),aurora*.5);
+    col+=vec3(.05,.5,.72)*pow(fbm(q*2.6+vec2(-t*.08,t*.06)),3.)*.85;
+    vec2 g=abs(fract(uv*5.5)-.5); float grid=smoothstep(.47,.5,max(g.x,g.y));
+    col+=grid*vec3(.04,.13,.22)*.4;
+    col*=1.-dot(uv,uv)*.38;
+    gl_FragColor=vec4(col,1.);}`;
+  function sh(type, src){ const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
+  const pr = gl.createProgram();
+  gl.attachShader(pr, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(pr); gl.useProgram(pr);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(pr, 'p');
+  gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  const uR = gl.getUniformLocation(pr, 'r'), uT = gl.getUniformLocation(pr, 't');
+  function size(){ const d = Math.min(devicePixelRatio || 1, 1.5);
+    cv.width = innerWidth * d; cv.height = innerHeight * d; gl.viewport(0, 0, cv.width, cv.height); }
+  size(); addEventListener('resize', size);
+  let visivel = true;
+  document.addEventListener('visibilitychange', () => visivel = !document.hidden);
+  (function loop(now){
+    if(visivel){ gl.uniform2f(uR, cv.width, cv.height); gl.uniform1f(uT, now * .001); gl.drawArrays(gl.TRIANGLES, 0, 3); }
+    requestAnimationFrame(loop);
+  })(0);
+})();
+
+/* ---- Ano do rodapé ---- */
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
