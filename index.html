@@ -177,7 +177,7 @@ h1{font-size:clamp(2.4rem,5.2vw,4rem);line-height:1.08;font-weight:800;letter-sp
 .srv-term .pr{color:var(--cyan)}
 .srv-term .ok{color:#4ade80}
 .srv-term .tcur{display:inline-block;width:8px;height:1em;background:var(--cyan);vertical-align:text-bottom;animation:blink 1s steps(1) infinite}
-.srv-icon{position:absolute;left:24px;bottom:-24px;z-index:2;width:52px;height:52px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,#0ea5e9,#6366f1);box-shadow:0 10px 26px rgba(14,165,233,.45);transition:.4s}
+.srv-icon{position:absolute;left:24px;top:194px;z-index:3;width:52px;height:52px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,#0ea5e9,#6366f1);box-shadow:0 10px 26px rgba(14,165,233,.45);transition:.4s}
 .srv-card:hover .srv-icon{transform:rotate(-8deg) scale(1.08)}
 .srv-icon svg{width:25px;height:25px;color:#fff}
 .srv-body{padding:42px 26px 28px}
@@ -499,11 +499,11 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:r
     <div class="srv-grid">
       <!-- Card 1: Ativação -->
       <article class="srv-card reveal" data-tilt>
-        <div class="srv-media">
-          <img src="img/ativacao-windows.jpg" alt="Ativação do Windows com chave holográfica" loading="lazy">
-          <div class="srv-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L7.438 2.425v7.19H0V3.449zm8.438-1.142L19 0v9.615H8.438V2.307zM0 10.577h7.438v7.19L0 16.728v-6.151zm8.438 0H19V20l-10.562-1.429v-8.994z"/></svg></div>
-        </div>
-        <div class="srv-body">
+  <div class="srv-media">
+    <img src="img/ativacao-windows.jpg" alt="Ativação do Windows com chave holográfica" loading="lazy">
+  </div>
+  <div class="srv-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L7.438 2.425v7.19H0V3.449zm8.438-1.142L19 0v9.615H8.438V2.307zM0 10.577h7.438v7.19L0 16.728v-6.151zm8.438 0H19V20l-10.562-1.429v-8.994z"/></svg></div>
+  <div class="srv-body">
           <h3>Ativação de Windows</h3>
           <p>Ativação digital definitiva do Windows 10 e 11, nas versões Home e Pro, com licença original e suporte total.</p>
           <ul class="srv-list">
