@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <!-- ============================================================
-  ATIVA TECH — Site Front-end (Ativação de Windows & Formatação)
+  ATIVA TECH — Site Front-end (Serviços 100% SOFTWARE)
+  Ativação de Windows • Formatação • Otimização de Software
   IMAGENS: salve na pasta "img/" com os nomes:
-    img/hero-pc.jpg           (PC com holograma)
-    img/ativacao-windows.jpg  (notebook com chave)
-    img/manutencao-pc.jpg     (técnico limpando)
-    img/bancada-tech.jpg      (bancada vista superior)
-    img/ssd-formatacao.jpg    (SSD/RAM)
+    img/hero-pc.jpg           (PC com holograma do Windows)
+    img/ativacao-windows.jpg  (notebook com chave holográfica)
+    img/ssd-formatacao.jpg    (fluxo de dados / velocidade)
+  (as antigas manutencao-pc.jpg e bancada-tech.jpg não são mais usadas)
   WHATSAPP E PREÇOS: configure no objeto CONFIG (início do <script>)
 ============================================================= -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AtivaTech — Ativação de Windows e Formatação de Computador</title>
-<meta name="description" content="Ativação de Windows 10 e 11, formatação completa, limpeza e otimização de PCs e notebooks. Atendimento presencial e remoto com garantia. Chame no WhatsApp!">
+<meta name="description" content="Ativação de Windows 10 e 11, formatação completa e otimização de software — 100% remoto ou presencial, sem abrir seu PC. Garantia e preço transparente. Chame no WhatsApp!">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -157,13 +157,26 @@ h1{font-size:clamp(2.4rem,5.2vw,4rem);line-height:1.08;font-weight:800;letter-sp
 .sec-head p{color:var(--muted)}
 
 /* ============ SERVIÇOS ============ */
-.srv-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
+.srv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
 .srv-card{position:relative;border-radius:var(--radius);overflow:hidden;background:var(--card);border:1px solid var(--line);transition:border-color .4s,box-shadow .4s;transform-style:preserve-3d;will-change:transform}
 .srv-card:hover{border-color:rgba(56,189,248,.55);box-shadow:0 24px 60px rgba(2,8,20,.7),0 0 40px rgba(56,189,248,.12)}
 .srv-media{position:relative;height:220px;overflow:hidden}
 .srv-media img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.7,.2,1);filter:saturate(1.05)}
 .srv-card:hover .srv-media img{transform:scale(1.09)}
 .srv-media::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(6,11,22,.95),transparent 65%)}
+/* terminal animado (card de otimização) */
+.srv-term{position:relative;height:220px;background:#050b16;padding:20px 22px;font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:2;color:#9fe8ff;overflow:hidden}
+.srv-term::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(6,11,22,.95),transparent 65%);pointer-events:none}
+.srv-term .tline{display:block;opacity:0;transform:translateY(6px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.reveal.visible .srv-term .tline{animation:tlineIn .5s ease forwards}
+.reveal.visible .srv-term .tline:nth-child(2){animation-delay:.5s}
+.reveal.visible .srv-term .tline:nth-child(3){animation-delay:1s}
+.reveal.visible .srv-term .tline:nth-child(4){animation-delay:1.5s}
+.reveal.visible .srv-term .tline:nth-child(5){animation-delay:2s}
+@keyframes tlineIn{to{opacity:1;transform:none}}
+.srv-term .pr{color:var(--cyan)}
+.srv-term .ok{color:#4ade80}
+.srv-term .tcur{display:inline-block;width:8px;height:1em;background:var(--cyan);vertical-align:text-bottom;animation:blink 1s steps(1) infinite}
 .srv-icon{position:absolute;left:24px;bottom:-24px;z-index:2;width:52px;height:52px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,#0ea5e9,#6366f1);box-shadow:0 10px 26px rgba(14,165,233,.45);transition:.4s}
 .srv-card:hover .srv-icon{transform:rotate(-8deg) scale(1.08)}
 .srv-icon svg{width:25px;height:25px;color:#fff}
@@ -189,9 +202,24 @@ h1{font-size:clamp(2.4rem,5.2vw,4rem);line-height:1.08;font-weight:800;letter-sp
 /* ============ SOBRE ============ */
 .about-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:64px;align-items:center}
 .about-media{position:relative}
-.about-media .main-img{border-radius:24px;overflow:hidden;border:1px solid var(--line);box-shadow:0 26px 70px rgba(2,8,20,.75)}
-.about-media .main-img img{aspect-ratio:4/3.4;object-fit:cover;width:100%;transition:transform .9s}
-.about-media:hover .main-img img{transform:scale(1.06)}
+/* painel de diagnóstico (janela animada, sem foto) */
+.panel{border-radius:22px;border:1px solid rgba(56,189,248,.35);background:rgba(6,12,24,.88);backdrop-filter:blur(12px);box-shadow:0 26px 70px rgba(2,8,20,.75),0 0 40px rgba(56,189,248,.1);overflow:hidden}
+.panel-bar{display:flex;gap:8px;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)}
+.panel-bar i{width:11px;height:11px;border-radius:50%}
+.panel-bar i:nth-child(1){background:#f87171}.panel-bar i:nth-child(2){background:#fbbf24}.panel-bar i:nth-child(3){background:#4ade80}
+.panel-bar span{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--muted)}
+.panel-body{padding:26px 26px 28px;display:grid;gap:18px}
+.pbar label{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--muted);margin-bottom:7px}
+.pbar label b{color:var(--cyan)}
+.pbar .track{height:8px;border-radius:99px;background:rgba(148,163,184,.15);overflow:hidden}
+.pbar .track i{display:block;height:100%;width:0;border-radius:99px;background:var(--grad);box-shadow:0 0 12px rgba(56,189,248,.6);transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
+.reveal.visible .pbar .track i{width:var(--w)}
+.reveal.visible .pbar:nth-child(2) .track i{transition-delay:.15s}
+.reveal.visible .pbar:nth-child(3) .track i{transition-delay:.3s}
+.reveal.visible .pbar:nth-child(4) .track i{transition-delay:.45s}
+.panel-status{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border-radius:99px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.4);color:#86efac;font-size:.74rem;font-family:'JetBrains Mono',monospace}
+.chip svg{width:12px;height:12px}
 .about-card{position:absolute;right:-24px;bottom:-28px;background:rgba(8,15,28,.9);backdrop-filter:blur(14px);border:1px solid rgba(56,189,248,.4);border-radius:18px;padding:18px 22px;display:flex;gap:14px;align-items:center;animation:float 5.5s ease-in-out infinite}
 .about-card b{font-size:1.5rem;display:block;line-height:1.1}
 .about-card span{color:var(--muted);font-size:.8rem}
@@ -324,7 +352,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:r
 @media(max-width:1024px){
   .hero-grid{grid-template-columns:1fr;gap:70px}
   .hero-visual{max-width:560px;margin:0 auto}
-  .srv-grid{grid-template-columns:1fr 1fr}
+  .srv-grid{grid-template-columns:1fr;max-width:560px;margin:0 auto}
   .steps{grid-template-columns:1fr 1fr;gap:44px}
   .steps::before{display:none}
   .about-grid{grid-template-columns:1fr;gap:56px}
@@ -337,7 +365,6 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:r
   .nav-links a{font-size:1.2rem}
   #menuBtn{display:flex;z-index:2}
   .nav .btn-wa{display:none}
-  .srv-grid{grid-template-columns:1fr}
   .steps{grid-template-columns:1fr}
   .t-slide{padding:36px 24px}
   .t-prev{left:6px}.t-next{right:6px}
@@ -398,10 +425,10 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:r
   <canvas id="particles"></canvas>
   <div class="container hero-grid">
     <div class="hero-txt">
-      <div class="hero-badge reveal"><span class="pulse-dot"></span> Atendimento disponível • Presencial e remoto</div>
+      <div class="hero-badge reveal"><span class="pulse-dot"></span> Atendimento disponível • 100% software, presencial e remoto</div>
       <h1 class="reveal d1">Seu PC como novo com <span class="grad-text">Windows ativado</span> e formatação impecável</h1>
       <div class="typed-wrap reveal d2"><span>&gt; </span><span id="typed"></span><span class="caret"></span></div>
-      <p class="hero-sub reveal d2">Ativamos, formatamos, limpamos e otimizamos seu computador com rapidez, garantia e preço transparente. Escolha seu plano abaixo ou chame no WhatsApp agora mesmo.</p>
+      <p class="hero-sub reveal d2">Ativamos, formatamos e otimizamos seu computador sem abrir a máquina — tudo por software, com rapidez, garantia e preço transparente. Escolha seu plano abaixo ou chame no WhatsApp.</p>
       <div class="hero-ctas reveal d3">
         <a href="#" data-wa data-magnet class="btn btn-wa">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -422,7 +449,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:r
     <div class="hero-visual reveal d1">
       <div class="float-anim">
         <div class="hero-frame" data-tilt>
-          <img src="img/hero-pc.jpg" alt="Computador gamer com logo do Windows brilhando">
+          <img src="img/hero-pc.jpg" alt="Computador com logo do Windows brilhando">
           <div class="shine"></div>
         </div>
       </div>
@@ -455,7 +482,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:r
     <span class="mq-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L7.438 2.425v7.19H0V3.449zm8.438-1.142L19 0v9.615H8.438V2.307zM0 10.577h7.438v7.19L0 16.728v-6.151zm8.438 0H19V20l-10.562-1.429v-8.994z"/></svg>Windows 10 & 11</span>
     <span class="mq-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="8" cy="15" r="4.5"/><path d="M11 12L20 3m-3 0l3 3"/></svg>Licença original</span>
     <span class="mq-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>Formatação rápida</span>
-    <span class="mq-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4m6-4v4M9 18v4m6-4v4M2 9h4m-4 6h4m12-6h4m-4 6h4"/></svg>Upgrade de SSD</span>
+    <span class="mq-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4m6-4v4M9 18v4m6-4v4M2 9h4m-4 6h4m12-6h4m-4 6h4"/></svg>Otimização 100% por software</span>
     <span class="mq-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>Garantia de 90 dias</span>
     <span class="mq-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Suporte no WhatsApp</span>
   </div>
@@ -466,10 +493,11 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:r
   <div class="container">
     <div class="sec-head reveal">
       <span class="sec-tag">Serviços</span>
-      <h2>Soluções completas para o seu <span class="grad-text">computador</span></h2>
-      <p>Da ativação do Windows à transformação total da sua máquina — tudo com garantia e atendimento presencial ou remoto.</p>
+      <h2>Soluções completas em <span class="grad-text">software</span></h2>
+      <p>Da ativação do Windows à otimização total do sistema — sem abrir seu computador, com garantia e atendimento presencial ou remoto.</p>
     </div>
     <div class="srv-grid">
+      <!-- Card 1: Ativação -->
       <article class="srv-card reveal" data-tilt>
         <div class="srv-media">
           <img src="img/ativacao-windows.jpg" alt="Ativação do Windows com chave holográfica" loading="lazy">
@@ -486,9 +514,10 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:r
           <a href="#planos" class="srv-link">Ver valores <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
         </div>
       </article>
+      <!-- Card 2: Formatação -->
       <article class="srv-card reveal d1" data-tilt>
         <div class="srv-media">
-          <img src="img/ssd-formatacao.jpg" alt="SSD e memórias RAM com fluxo de dados" loading="lazy">
+          <img src="img/ssd-formatacao.jpg" alt="Fluxo de dados representando instalação limpa e rápida" loading="lazy">
           <div class="srv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.3 7L12 12l8.7-5M12 22V12"/></svg></div>
         </div>
         <div class="srv-body">
@@ -502,34 +531,23 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:r
           <a href="#planos" class="srv-link">Ver valores <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
         </div>
       </article>
+      <!-- Card 3: Otimização (terminal animado) -->
       <article class="srv-card reveal d2" data-tilt>
-        <div class="srv-media">
-          <img src="img/manutencao-pc.jpg" alt="Técnico fazendo limpeza interna em um PC" loading="lazy">
-          <div class="srv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M4.9 4.9l2.1 2.1m10 10l2.1 2.1m0-14.2l-2.1 2.1m-10 10l-2.1 2.1"/></svg></div>
-        </div>
-        <div class="srv-body">
-          <h3>Limpeza & Manutenção</h3>
-          <p>Limpeza interna profunda, troca de pasta térmica e controle de temperatura para seu PC viver mais e melhor.</p>
-          <ul class="srv-list">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Limpeza interna + pasta térmica</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Relatório de temperaturas e ruídos</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Prevenção para PC e notebook</li>
-          </ul>
-          <a href="#" data-wa class="srv-link">Orçamento no WhatsApp <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
-        </div>
-      </article>
-      <article class="srv-card reveal d3" data-tilt>
-        <div class="srv-media">
-          <img src="img/bancada-tech.jpg" alt="Bancada de trabalho com notebook desmontado e ferramentas" loading="lazy">
+        <div class="srv-term">
+          <span class="tline"><span class="pr">&gt;</span> analisando inicialização...</span>
+          <span class="tline"><span class="pr">&gt;</span> removendo arquivos temporários... <span class="ok">ok</span></span>
+          <span class="tline"><span class="pr">&gt;</span> ajustando serviços e processos... <span class="ok">ok</span></span>
+          <span class="tline"><span class="pr">&gt;</span> aplicando tweaks de desempenho... <span class="ok">ok</span></span>
+          <span class="tline"><span class="ok">✓ sistema otimizado com sucesso</span> <span class="tcur"></span></span>
           <div class="srv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg></div>
         </div>
         <div class="srv-body">
-          <h3>Otimização & Upgrade</h3>
-          <p>Seu PC lento virando uma máquina rápida: SSD, memória, inicialização e sistema ajustado ponto a ponto.</p>
+          <h3>Otimização de Software</h3>
+          <p>Mais velocidade e estabilidade sem abrir seu PC: sistema ajustado ponto a ponto, 100% por software.</p>
           <ul class="srv-list">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Upgrade de HDD para SSD</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Mais memória e desempenho</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Inicialização até 10x mais rápida</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Ajuste de inicialização e serviços</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Remoção de lixeira e temporários</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Tweaks de desempenho e estabilidade</li>
           </ul>
           <a href="#" data-wa class="srv-link">Orçamento no WhatsApp <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg></a>
         </div>
@@ -548,8 +566,8 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:r
     </div>
     <div class="steps">
       <div class="step reveal"><div class="step-num">01</div><h3>Chame no WhatsApp</h3><p>Conte o que está acontecendo com seu PC e receba o orçamento na hora, sem compromisso.</p></div>
-      <div class="step reveal d1"><div class="step-num">02</div><h3>Diagnóstico gratuito</h3><p>Avaliamos a máquina (presencial ou remoto) e confirmamos versão e edição do seu Windows.</p></div>
-      <div class="step reveal d2"><div class="step-num">03</div><h3>Execução do serviço</h3><p>Ativação, formatação ou manutenção feita com cuidado, backup e comunicação em tempo real.</p></div>
+      <div class="step reveal d1"><div class="step-num">02</div><h3>Diagnóstico gratuito</h3><p>Avaliamos o sistema (presencial ou remoto) e confirmamos versão e edição do seu Windows.</p></div>
+      <div class="step reveal d2"><div class="step-num">03</div><h3>Execução do serviço</h3><p>Ativação, formatação ou otimização feita com cuidado, backup e comunicação em tempo real.</p></div>
       <div class="step reveal d3"><div class="step-num">04</div><h3>Entrega + garantia</h3><p>Você recebe o PC testado, otimizado e com 90 dias de garantia no serviço realizado.</p></div>
     </div>
   </div>
@@ -559,8 +577,19 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:r
 <section id="sobre">
   <div class="container about-grid">
     <div class="about-media reveal">
-      <div class="main-img" data-tilt>
-        <img src="img/manutencao-pc.jpg" alt="Técnico realizando manutenção em computador" loading="lazy">
+      <div class="panel">
+        <div class="panel-bar"><i></i><i></i><i></i><span>ativatech — diagnostico.exe</span></div>
+        <div class="panel-body">
+          <div class="pbar"><label>Inicialização <b>95%</b></label><div class="track"><i style="--w:95%"></i></div></div>
+          <div class="pbar"><label>Desempenho do sistema <b>98%</b></label><div class="track"><i style="--w:98%"></i></div></div>
+          <div class="pbar"><label>Segurança & atualizações <b>100%</b></label><div class="track"><i style="--w:100%"></i></div></div>
+          <div class="pbar"><label>Arquivos desnecessários removidos <b>90%</b></label><div class="track"><i style="--w:90%"></i></div></div>
+          <div class="panel-status">
+            <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Windows ativado</span>
+            <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Drivers em dia</span>
+            <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Sem lixeira</span>
+          </div>
+        </div>
       </div>
       <div class="about-card">
         <div class="ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></div>
@@ -570,11 +599,11 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:r
     <div class="about-txt">
       <span class="sec-tag reveal" style="justify-content:flex-start">Por que a AtivaTech?</span>
       <h2 class="reveal d1">Especialistas em devolver a <span class="grad-text">performance</span> da sua máquina</h2>
-      <p class="reveal d1">Há mais de 8 anos transformamos computadores lentos, desativados e superaquecidos em máquinas rápidas, seguras e prontas pro trabalho. Atendimento transparente do orçamento à entrega.</p>
+      <p class="reveal d1">Há mais de 8 anos transformamos computadores lentos e desativados em máquinas rápidas, seguras e prontas pro trabalho — sem abrir seu PC, com procedimentos 100% de software, presenciais ou remotos. Atendimento transparente do orçamento à entrega.</p>
       <ul class="checks">
-        <li class="reveal d1"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><b>Licença original com garantia</b><small>Ativação genuína e definitiva.</small></div></li>
+        <li class="reveal d1"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><b>Licença original com garantia</b><small>Ativação genuína e definitiva, com nota fiscal.</small></div></li>
         <li class="reveal d2"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><b>Seus dados protegidos</b><small>Backup completo antes de qualquer procedimento.</small></div></li>
-        <li class="reveal d2"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><b>Presencial ou remoto</b><small>Ativação e diagnóstico sem você sair de casa.</small></div></li>
+        <li class="reveal d2"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><b>Sem abrir seu computador</b><small>Procedimentos 100% de software, presenciais ou remotos.</small></div></li>
         <li class="reveal d3"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><b>Suporte pós-serviço</b><small>Não sumimos depois da entrega: suporte direto no WhatsApp.</small></div></li>
       </ul>
       <a href="#" data-wa data-magnet class="btn btn-wa reveal d3">
@@ -664,7 +693,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:r
         <ul>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Tudo da formatação completa</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Ativação original incluída</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Limpeza interna + pasta térmica</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Otimização de software incluída</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Suporte de 90 dias</li>
         </ul>
         <a href="#" data-wa-din="combo" class="btn btn-wa">Pedir pelo WhatsApp</a>
@@ -679,7 +708,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:r
         </thead>
         <tbody id="tabelaPrecos"></tbody>
       </table>
-      <div class="tabela-note">// A linha destacada é a sua seleção atual • Limpeza e upgrades são orçados pelo WhatsApp //</div>
+      <div class="tabela-note">// A linha destacada é a sua seleção atual • Otimização avulsa é orçada pelo WhatsApp //</div>
     </div>
   </div>
 </section>
@@ -698,8 +727,8 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:r
         <div class="t-track" id="tTrack">
           <div class="t-slide">
             <div class="t-stars">★★★★★</div>
-            <blockquote>"Meu PC demorava 5 minutos pra ligar. Depois da formatação com SSD, liga em 15 segundos. Trabalho impecável e tudo resolvido pelo WhatsApp."</blockquote>
-            <div class="t-author"><div class="t-avatar">M</div><div style="text-align:left"><b>Mariana Souza</b><span>Formatação completa + SSD</span></div></div>
+            <blockquote>"Meu PC demorava 5 minutos pra ligar. Depois da formatação, liga em 20 segundos. Trabalho impecável e tudo resolvido pelo WhatsApp."</blockquote>
+            <div class="t-author"><div class="t-avatar">M</div><div style="text-align:left"><b>Mariana Souza</b><span>Formatação completa</span></div></div>
           </div>
           <div class="t-slide">
             <div class="t-stars">★★★★★</div>
@@ -708,8 +737,8 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:r
           </div>
           <div class="t-slide">
             <div class="t-stars">★★★★★</div>
-            <blockquote>"Meu notebook vivia superaquecendo e desligando sozinho. Fizeram limpeza e pasta térmica e ele voltou como novo. Atendimento nota dez!"</blockquote>
-            <div class="t-author"><div class="t-avatar">A</div><div style="text-align:left"><b>Ana Paula Ribeiro</b><span>Limpeza & manutenção</span></div></div>
+            <blockquote>"Meu PC vivia lento mesmo com configuração boa. Fizeram a otimização de software e a inicialização caiu de 3 minutos pra 20 segundos. Tudo remoto, sem eu sair de casa!"</blockquote>
+            <div class="t-author"><div class="t-avatar">A</div><div style="text-align:left"><b>Ana Paula Ribeiro</b><span>Otimização de software</span></div></div>
           </div>
           <div class="t-slide">
             <div class="t-stars">★★★★★</div>
@@ -732,10 +761,11 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:r
     </div>
     <div class="faq">
       <div class="faq-item reveal"><button class="faq-q">Como sei se meu Windows é Home ou Pro, 10 ou 11?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="faq-a"><p>É fácil: vá em Configurações &gt; Sistema &gt; Sobre — lá aparece "Edição" e "Versão". Mas se preferir, manda um print da tela no WhatsApp que a gente identifica pra você na hora e já passa o valor exato.</p></div></div>
+      <div class="faq-item reveal d1"><button class="faq-q">Vocês mexem na parte física do meu computador?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="faq-a"><p>Não. Nosso trabalho é 100% de software: ativação, formatação, backup e otimização do sistema. Seu computador não é aberto e nenhuma peça é trocada — tudo feito presencialmente ou por acesso remoto.</p></div></div>
       <div class="faq-item reveal d1"><button class="faq-q">A ativação do Windows é original e definitiva?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="faq-a"><p>Sim. Trabalhamos com licença digital genuína, ativação definitiva e direito a todas as atualizações oficiais do Windows. Você recebe garantia e suporte inclusos.</p></div></div>
       <div class="faq-item reveal d1"><button class="faq-q">Perco meus arquivos na formatação?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="faq-a"><p>Não. Antes de qualquer procedimento fazemos backup completo das suas fotos, documentos e arquivos. Tudo devolvido organizado após a instalação.</p></div></div>
-      <div class="faq-item reveal d2"><button class="faq-q">Quanto tempo demora o serviço?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="faq-a"><p>Ativação remota leva poucos minutos. Formatação completa e manutenções costumam ser entregues em até 24–48h, dependendo da máquina e do volume de dados.</p></div></div>
-      <div class="faq-item reveal d2"><button class="faq-q">O valor do site é o valor final?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="faq-a"><p>Sim para ativação, formatação e combo — o simulador mostra o preço exato da sua seleção. Serviços de limpeza, upgrade de SSD e memória são orçados pelo WhatsApp após o diagnóstico gratuito.</p></div></div>
+      <div class="faq-item reveal d2"><button class="faq-q">Quanto tempo demora o serviço?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="faq-a"><p>Ativação remota leva poucos minutos. Formatação completa e otimizações costumam ser entregues em até 24–48h, dependendo da máquina e do volume de dados.</p></div></div>
+      <div class="faq-item reveal d2"><button class="faq-q">O valor do site é o valor final?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="faq-a"><p>Sim para ativação, formatação e combo — o simulador mostra o preço exato da sua seleção. A otimização de software avulsa e outros serviços são orçados pelo WhatsApp após o diagnóstico gratuito.</p></div></div>
       <div class="faq-item reveal d2"><button class="faq-q">Qual garantia eu tenho?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="faq-a"><p>Todos os serviços têm 90 dias de garantia sobre o procedimento realizado, além de suporte pós-serviço pelo WhatsApp para qualquer dúvida.</p></div></div>
     </div>
   </div>
@@ -747,12 +777,12 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:r
     <div class="cta-panel reveal">
       <div class="cta-inner">
         <h2>PC lento ou Windows <span class="grad-text">desativado</span>?</h2>
-        <p>Clique no botão, fale com a gente no WhatsApp e receba sua máquina como nova em até 24 horas.</p>
+        <p>Clique no botão, fale com a gente no WhatsApp e receba sua máquina como nova em até 24 horas — sem abrir seu computador.</p>
         <a href="#" data-wa data-magnet class="btn btn-wa" style="font-size:1.05rem;padding:17px 34px">
           <svg viewBox="0 0 24 24" fill="currentColor" style="width:22px;height:22px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           Quero meu orçamento agora
         </a>
-        <div class="cta-note">// ATENDIMENTO PRESENCIAL & REMOTO • RESPOSTA RÁPIDA • GARANTIA DE 90 DIAS //</div>
+        <div class="cta-note">// SERVIÇOS 100% DE SOFTWARE • PRESENCIAL & REMOTO • GARANTIA DE 90 DIAS //</div>
       </div>
     </div>
   </div>
@@ -765,7 +795,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:r
     <div class="ft-grid">
       <div>
         <a href="#inicio" class="logo"><span class="logo-mark"><i></i><i></i><i></i><i></i></span>Ativa<span class="grad-text">Tech</span></a>
-        <p>Ativação de Windows, formatação, manutenção e upgrade com garantia, rapidez e atendimento presencial ou remoto.</p>
+        <p>Ativação de Windows, formatação e otimização de software com garantia, rapidez e atendimento presencial ou remoto — sem abrir seu computador.</p>
         <a href="#" data-wa class="btn btn-wa" style="padding:12px 22px;font-size:.88rem">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           Chamar no WhatsApp
@@ -780,13 +810,13 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);background:r
       <div>
         <h4>Serviços</h4>
         <div class="ft-links">
-          <a href="#planos">Ativação de Windows</a><a href="#planos">Formatação completa</a><a href="#servicos">Limpeza & manutenção</a><a href="#servicos">SSD & upgrades</a>
+          <a href="#planos">Ativação de Windows</a><a href="#planos">Formatação completa</a><a href="#servicos">Otimização de software</a>
         </div>
       </div>
     </div>
     <div class="ft-bottom">
       <span>© <span id="year"></span> AtivaTech — Todos os direitos reservados.</span>
-      <span class="mono">&lt;/&gt; feito com paixão por hardware</span>
+      <span class="mono">&lt;/&gt; feito com paixão por software</span>
     </div>
   </div>
 </footer>
@@ -967,7 +997,7 @@ const cnt = new IntersectionObserver(es => {
 document.querySelectorAll('[data-count]').forEach(el => cnt.observe(el));
 
 /* ---- Efeito de digitação ---- */
-const frases = ["ativando Windows 10 & 11...","formatando com backup seguro...","limpando e fazendo manutenção...","upgradando SSD e otimizando..."];
+const frases = ["ativando Windows 10 & 11...","formatando com backup seguro...","otimizando o sistema por software...","atendendo remoto, sem você sair de casa..."];
 const typedEl = document.getElementById('typed');
 let pi = 0, ci = 0, del = false;
 (function type(){
